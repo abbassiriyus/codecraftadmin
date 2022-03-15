@@ -21,8 +21,8 @@ export default class Instructor extends Component {
     handleShow1 = () => this.setState({show1:true});
     
     getStudent=()=>{ 
-      getInstructors().then(res=>{this.setState({data:res.data}) 
-       })
+      getInstructors().then(res=>{this.setState({data:res.data})
+       }).catch(err=>{alert("o`chmadi")})
     }
   
     getColumnSearchProps = dataIndex => ({
@@ -103,7 +103,10 @@ export default class Instructor extends Component {
       this.setState({ searchText: '' });
     };
     handleDelete = (key) => {
-      deleteUser(key).then(res=>{alert("o`chirib tashladik")})
+      deleteUser(key).then(res=>{alert("o`chirib tashladik")
+      this.getStudent()}).catch(err=>{
+        alert('o`chmadi')
+      })
     }
     PostUser=()=>{
    
@@ -133,13 +136,12 @@ export default class Instructor extends Component {
 
 
       }
-      console.log(user)
-axios.post('http://62.209.129.38:8000/api/users/', user).then((response)=>{
-  console.log("Post bajarildi", response);
-  console.log("user info ketdi:", user);
+axios.post('https://api.codecraft.uz/api/users/', user).then((response)=>{
+ alert("Ma`lumot yuborildi");
+ this.getStudent()
 })
 .catch((error)=> {
-  console.log("Post error: ", error);
+ alert("Ma`lumot ketmadi");
 });
       this.handleClose()
     }
@@ -236,7 +238,7 @@ axios.post('http://62.209.129.38:8000/api/users/', user).then((response)=>{
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Last name<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicLast" placeholder="Enter last name<" />
+    <Form.Control type="email" className="mb-3" id="formBasicLast" placeholder="Enter last name" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Patronimic</Form.Label>
@@ -248,16 +250,16 @@ axios.post('http://62.209.129.38:8000/api/users/', user).then((response)=>{
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Telefon number <sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTel" placeholder="Enter telefon number" />
+    <Form.Control type="email" className="mb-3" id="formBasicTel" placeholder="+99890000000" />
   </Form.Group> 
    <Form.Group className="mb-3" >
     <Form.Label>Extra telefon number</Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTel1" placeholder="Enter email" />
+    <Form.Control type="email" className="mb-3" id="formBasicTel1" placeholder="+99890000000" />
   </Form.Group>
 
  <Form.Group className="mb-3" >
     <Form.Label>Notes</Form.Label>
-    <Form.Control type="email" id="formBasicNote" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="formBasicNote" className="mb-3" placeholder="Notes" />
   </Form.Group>
  
 </Form>
@@ -269,27 +271,27 @@ axios.post('http://62.209.129.38:8000/api/users/', user).then((response)=>{
  
   <Form.Group className="mb-3" >
     <Form.Label>Passport Address<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_address" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_address" className="mb-3" placeholder="Passport Address" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport number<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_number" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_number" className="mb-3" placeholder="000000000" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport serial<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_serial" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_serial" className="mb-3" placeholder="AA" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport who give<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_who_give" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_who_give" className="mb-3" placeholder="Passport who give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport when give<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_when_give" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_when_give" className="mb-3" placeholder="Passport when give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport file<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="file" id="passport_file" className="mb-3" placeholder="text" />
+    <Form.Control type="file" id="passport_file" className="mb-3" placeholder="Passport file" />
   </Form.Group>
 
 </Form></Modal.Body>
@@ -297,7 +299,7 @@ axios.post('http://62.209.129.38:8000/api/users/', user).then((response)=>{
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
-          <Button variant="primary"   onClick={this.PostUser}>
+          <Button variant="primary"   onClick={()=>this.PostUser()}>
             Save Changes
           </Button>
         </Modal.Footer>

@@ -19,10 +19,11 @@ this.setState({data:res.data})
 
 getId=(id)=>{
   getCourseS(id).then(res=>{
-    this.setState({student:res.data}) })
+  this.setState({student:res.data})})
 }
 deleteSG=(id)=>{
-deleteSG1(id).then(res=>{alert("o`chib ketdi")}).catch(err=>{alert('o`chmadi')})
+deleteSG1(id).then(res=>{alert("o`chib ketdi")
+this.getGroupName()}).catch(err=>{alert('o`chmadi')})
 }
 
   componentDidMount(){
@@ -32,7 +33,7 @@ deleteSG1(id).then(res=>{alert("o`chib ketdi")}).catch(err=>{alert('o`chmadi')})
     return (
 <div>
 <Form.Select aria-label="Default select example">
- {this.state.data.map(item=>{ return <option value="1" onClick={()=>this.getId(item.id)}>{item.course.title} {item.id}</option>})}
+ {this.state.data.map((item, key)=>{ return <option value={key} onClick={()=>this.getId(item.id)}>{item.course.title} {item.id}</option>})}
 </Form.Select>
 <Table style={{marginTop:'100px'}} striped bordered hover size="sm">
   <thead style={{fontSize:'20px'}}>

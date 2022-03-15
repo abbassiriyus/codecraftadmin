@@ -30,8 +30,7 @@ export default class Group1 extends React.Component {
   handleShow1 = () => this.setState({show1:true});
 
   getStudent=()=>{
-    getGroup().then(res=>{this.setState({data:res.data}) 
-    console.log("ok") }).then(err=>{console.log('error')}) 
+    getGroup().then(res=>{this.setState({data:res.data})}).catch("parol xato boshqatdan urinib koring") 
   }
   getId1=(key)=>{
 this.setState({idC:key})
@@ -40,8 +39,7 @@ this.setState({idC:key})
     this.setState({idT:key})
       }
   getStudent=()=>{
-    getGroup().then(res=>{this.setState({data:res.data}) 
-    console.log("ok") }).then(err=>{console.log('error')}) 
+    getGroup().then(res=>{this.setState({data:res.data})  })
   }
   getData=()=>{
     getCourse().then(res=>{this.setState({dataC:res.data}) 
@@ -126,7 +124,8 @@ this.setState({idC:key})
     this.setState({ searchText: '' });
   };
   handleDelete = (key) => {
-    deleteGroup(key).then(res=>{alert("o`chirib tashladik")})
+    deleteGroup(key).then(res=>{alert("o`chirib tashladik")
+    this.getStudent()}).catch(err=>{alert("o`chmadi")})
   }
 
   PostUser=()=>{
@@ -141,25 +140,24 @@ this.setState({idC:key})
 "classroom_room": document.querySelector('#room').value,
 }
 postGroup1(user).then((response)=>{
-console.log("Post bajarildi", response);
-console.log("user info ketdi:", user);
+alert("Ma`lumot yuborildi")
+this.getStudent()
 })
 .catch((error)=> {
-console.log("Post error: ", error);
+alert("Ma`lumot ketmadi")
 });
     this.handleClose()
   }
   openmodal=(id)=>{
 getGroupS(id).then(res=>{
   this.setState({dataCourse:res.data})
-  console.log(res.data)
+
 })
   this.handleShow1()
   }
 
   postStudent=(id1)=>{
     this.setState({studentId:id1})
-    console.log(id1)
   }
   postObject=()=>{ 
   const  user={
@@ -171,11 +169,11 @@ getGroupS(id).then(res=>{
       "group":this.state.dataCourse.group
   } 
 postGroup1(user).then((response)=>{
-    console.log("Post bajarildi", response);
-    console.log("user info ketdi:", user);
+    alert("Ma`lumot yuborildi");
+    this.getStudent()
     })
     .catch((error)=> {
-    console.log("Post error: ", error);
+    alert("Ma`lumot ketmadi");
     });
         this.handleClose1()
       } 
@@ -278,27 +276,31 @@ postGroup1(user).then((response)=>{
         </Modal.Header>
         <Modal.Body><Form style={{padding:'30px'}}>
   <Form.Group className="mb-3" >
-    <Form.Label>start_date<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="date" id="date1" className="mb-3" placeholder="course_section_id" />
+    <Form.Label>start_date</Form.Label>
+    <Form.Control type="date" id="date1" className="mb-3" placeholder="start_date" />
   </Form.Group>
   <Form.Group className="mb-3" >
-    <Form.Label>end_date<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="date" id="date2" className="mb-3" placeholder="course_section_id" />
+    <Form.Label>end_date</Form.Label>
+    <Form.Control type="date" id="date2" className="mb-3" placeholder="end_date" />
   </Form.Group>
   <Form.Group className="mb-3" >
-    <Form.Label>classroom_building<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="text" id="school" className="mb-3" placeholder="course_section_id" />
+    <Form.Label>classroom_building</Form.Label>
+    <Form.Control type="text" id="school" className="mb-3" placeholder="classroom_building" />
   </Form.Group>
   <Form.Group className="mb-3" >
-    <Form.Label>classroom_room<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="text" id="room" className="mb-3" placeholder="course_section_id" />
+    <Form.Label>classroom_room</Form.Label>
+    <Form.Control type="text" id="room" className="mb-3" placeholder="classroom_room" />
   </Form.Group>
+  <Form.Group className="mb-3" >
+    <Form.Label>Course</Form.Label>
   <Form.Select aria-label="Default select example">
  {this.state.dataC.map(item=>{ return <option value="1" onClick={()=>this.getId1(item.id)}>{item.short_title} {item.id}</option>})}
-</Form.Select>
+</Form.Select> </Form.Group>
+<Form.Group className="mb-3" >
+  <Form.Label>Timeslot name</Form.Label>
 <Form.Select aria-label="Default select example">
  {this.state.dataT.map(item=>{ return <option value="1" onClick={()=>this.getId2(item.id)}>{item.timeslot_name} {item.id}</option>})}
-</Form.Select>
+</Form.Select> </Form.Group>
 
 
 </Form></Modal.Body>
@@ -320,7 +322,7 @@ postGroup1(user).then((response)=>{
         <Modal.Body style={{display:'flex'}}>
           <Form style={{display:'block',padding:'30px'}}>
   <Form.Group className="mb-3">
-  <Form.Label>Position<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
+  <Form.Label>Position</Form.Label>
   <Form.Select aria-label="Default select example"  id="formBasicPos">
     {this.state.dataStudent.map(item=>{return <option onClick={()=>this.postStudent(item.id)} value="s">{item.first_name} {item.last_name} {item.patronymic} {item.id}</option>})}
 </Form.Select></Form.Group>

@@ -5,7 +5,6 @@ export let access_token = localStorage.getItem('token');
 export const httpRequest = (config) => {
     return axios({
       ...config,
-     
     }); 
    
   };

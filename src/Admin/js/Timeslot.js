@@ -31,11 +31,11 @@ export default class Timeslot extends Component {
           "sun":document.querySelector('#sun').checked,
         } 
       postTimeslot(user).then((response)=>{
-          console.log("Post bajarildi", response);
-          console.log("user info ketdi:", user);
+         alert("Ma`lumot yuborildi");
+         this.getTimeslot()
           })
           .catch((error)=> {
-          console.log("Post error: ", error);
+         alert("Ma`lumot ketmadi");
           });
               this.handleClose1()
             } 
@@ -48,8 +48,7 @@ export default class Timeslot extends Component {
      
     
       getTimeslot=()=>{
-        getTimeslots().then(res=>{this.setState({data:res.data}) 
-        console.log("ok") }).then(err=>{console.log('error')}) 
+        getTimeslots().then(res=>{this.setState({data:res.data}) }).catch(err=>{alert("Tizim xatoligi")}) 
       }
     
       getColumnSearchProps = dataIndex => ({
@@ -130,7 +129,9 @@ export default class Timeslot extends Component {
         this.setState({ searchText: '' });
       };
       handleDelete = (key) => {
-        deleteTimeslots(key).then(res=>{alert("o`chirib tashladik")})
+        deleteTimeslots(key).then(res=>{alert("o`chirib tashladik")
+        this.getTimeslot()
+      }).catch(alert("o`chmadi"))
       }
     
    
@@ -255,19 +256,19 @@ export default class Timeslot extends Component {
        onClick={this.handleShow}>Create Timeslot</Button>
      <Table columns={columns} dataSource={this.state.data} />
      <Modal 
-      fullscreen={true}
+   
         show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create new Timeslot</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{display:'flex'}}><Form style={{display:'block',width:'50%',padding:'30px'}}>
+        <Modal.Body style={{display:'flex'}}><Form style={{display:'block',width:'100%',padding:'30px'}}>
   
   <Form.Group className="mb-3" >
-    <Form.Label>timeslot_name<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
+    <Form.Label>timeslot_name</Form.Label>
     <Form.Control type="text" className="mb-3" id="timeslot_name" placeholder="short_title" />
   </Form.Group>
   <Form.Group className="mb-3" >
-    <Form.Label>start_time<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
+    <Form.Label>start_time</Form.Label>
     <Form.Control type="time" className="mb-3" id="start_time" placeholder="title" />
   </Form.Group>
   <Form.Group className="mb-3" >
@@ -275,7 +276,7 @@ export default class Timeslot extends Component {
     <Form.Control type="time" className="mb-3" id="end_time" placeholder="price" />
   </Form.Group>
   <Form.Group className="mb-3" >
-    <Form.Label>duration<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
+    <Form.Label>duration</Form.Label>
     <Form.Control type="number" className="mb-3" id="duration" placeholder="subtitle" />
   </Form.Group>
   <Form.Group className="mb-3" >
@@ -305,7 +306,7 @@ export default class Timeslot extends Component {
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
-          <Button variant="primary"   onClick={this.postObject}>
+          <Button variant="primary"   onClick={()=>this.postObject()}>
             Save Changes
           </Button>
         </Modal.Footer>

@@ -24,8 +24,9 @@ export default class Course extends React.Component {
   handleShow1 = () => this.setState({show1:true});
 
   getStudent=()=>{
-    getCourse().then(res=>{this.setState({data:res.data}) 
-    console.log("ok") }).then(err=>{console.log('error')}) 
+    getCourse().then(res=>{this.setState({data:res.data})}).catch(err=>{
+      alert("Parolni xato terdiz")
+    })
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -106,7 +107,8 @@ export default class Course extends React.Component {
     this.setState({ searchText: '' });
   };
   handleDelete = (key) => {
-    deleteCourse(key).then(res=>{alert("o`chirib tashladik")})
+    deleteCourse(key).then(res=>{alert("o`chirib tashladik")
+    this.getStudent()}).catch(err=>{alert("o`chmadi")})
   }
 
   PostUser=()=>{
@@ -134,18 +136,17 @@ export default class Course extends React.Component {
 
 
 postCourse(user).then((response)=>{
-console.log("Post bajarildi", response);
-console.log("user info ketdi:", user);
+alert("Ma`lumot yuborildi");
+this.getStudent()
 })
 .catch((error)=> {
-console.log("Post error: ", error);
+alert("Ma`lumot ketmadi");
 });
     this.handleClose()
   }
   openmodal=(id)=>{
 getGroupS(id).then(res=>{
   this.setState({dataCourse:res.data})
-  console.log(res.data)
 })
   this.handleShow1()
   }
@@ -254,7 +255,7 @@ getGroupS(id).then(res=>{
   </Form.Group>
   <Form.Group className="mb-3" >
   <Form.Label>Delete<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="number"  id="passport_who_give" className="mb-3" placeholder="deleted" />
+    <Form.Control type="number"  id="passport_who_give" className="mb-3" placeholder="0 or 1" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>notes<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
@@ -269,18 +270,18 @@ getGroupS(id).then(res=>{
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>curriculum<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="textarea" id="curriculum" className="mb-3" placeholder="course_section_id" />
+    <Form.Control type="textarea" id="curriculum" className="mb-3" placeholder="curriculum" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>required_course_id<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="number" id="required_course_id" className="mb-3" placeholder="course_section_id" />
+    <Form.Control type="number" id="required_course_id" className="mb-3" placeholder="required_course_id" />
   </Form.Group>
 </Form></Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
-          <Button variant="primary"   onClick={this.PostUser}>
+          <Button variant="primary"   onClick={()=>this.PostUser()}>
             Save Changes
           </Button>
         </Modal.Footer>

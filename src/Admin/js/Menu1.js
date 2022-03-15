@@ -111,7 +111,7 @@ time=()=>{
                   <h1><Timeslot/></h1>))))))))}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2022 Created by Abbas</Footer>
+          <Footer style={{ textAlign: 'center' }}>CodeCraft ©2022 Created by Abbas</Footer>
         </Layout>
       </Layout>
 

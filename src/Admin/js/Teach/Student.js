@@ -108,15 +108,36 @@ export default class Student extends Component {
       this.setState({ searchText: '' });
     };
     handleDelete = (key) => {
-      deleteStudent(key).then(res=>{alert("o`chirib tashladik")})
+      deleteStudent(key).then(res=>{alert("o`chirib tashladik")
+      this.getStudent()}).catch(err=>{alert("o`chirilmadi")})
     }
     PostUser=()=>{
-   
+      var user1={
+        first_name:document.querySelector('#formBasicFirst').value,
+        last_name:document.querySelector('#formBasicLast').value,
+        patronymic:document.querySelector('#formBasicPat').value,
+        birthdate:document.querySelector('#formBasicBirth').value,
+        phone_number:document.querySelector('#formBasicTel').value,
+        extra_phone_numbers:document.querySelector('#formBasicTel1').value,
+        // profile_photo:document.querySelector('#formBasicImages').value,
+        notes:document.querySelector('#formBasicNote').value,
+        passport_address:document.querySelector('#passport_address').value,
+        passport_number:document.querySelector('#passport_number').value,
+        passport_serial:document.querySelector('#passport_serial').value,
+        passport_who_give:document.querySelector('#passport_who_give').value,
+        passport_when_give:document.querySelector('#passport_when_give').value,
+        // passport_file:document.querySelector('#passport_file').value,
+        position:"s",
+        // 'passport_file1':
+        // 'office_address':
+        // 'office_bank_account':
+        // 'office_bank_code':
+        // 'office_inn':
+      }
       
       var user={
 
-"parent":{
-
+"student":{
         "first_name":document.querySelector('#formBasicFirst').value,
         "last_name":document.querySelector('#formBasicLast').value,
         "patronymic":document.querySelector('#formBasicPat').value,
@@ -139,7 +160,7 @@ export default class Student extends Component {
         "office_inn": "",
         "office_licence_file": null
 },
-"student":{
+"parent":{
   "first_name":document.querySelector('#formBasicFirstO').value,
   "last_name":document.querySelector('#formBasicLastO').value,
   "patronymic":document.querySelector('#formBasicPatO').value,
@@ -153,30 +174,40 @@ export default class Student extends Component {
   "passport_serial":document.querySelector('#passport_serialO').value,
   "passport_who_give":document.querySelector('#passport_who_giveO').value,
   "passport_when_give":document.querySelector('#passport_when_giveO').value,
+  "is_staff": false,
+  "is_superuser": false,
+  "is_active": false,
   "individual_type": false,
+  "blocked": false,
+  "profile_photo": null,
+  "position": "p",
   "passport_file": null,
-  "passport_file1": null,
-  "office_address": "",
-  "office_bank_account": "",
-  "office_bank_code": "",
-  "office_inn": "",
-  "office_licence_file": null
+  "passport_file1": null
 }
 
 
       }
-      console.log(user)
-axios.post('http://62.209.129.38:8000/api/students/', user , {
+user.parent.first_name===""?(   axios.post('https://api.codecraft.uz/api/users/', user1 , {
   headers: {
     'Authorization': `Token ${access_token}` 
   }
 }).then((response)=>{
-  console.log("Post bajarildi", response);
-  console.log("user info ketdi:", user);
+  alert("Ma`lumot yuborildi");
+  this.getStudent()
 })
 .catch((error)=> {
-  console.log("Post error: ", error);
-});
+  alert("Ma`lumot ketmadi");
+})):(  axios.post('https://api.codecraft.uz/api/students/', user , {
+  headers: {
+    'Authorization': `Token ${access_token}` 
+  }
+}).then((response)=>{
+  alert("Ma`lumot yuborildi");
+  this.getStudent()
+})
+.catch((error)=> {
+  alert("Ma`lumot ketmadi");
+})) 
       this.handleClose()
     }
     Byvalue=()=>{
@@ -185,6 +216,19 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
       document.querySelector('#formBasicPat').value=""
       document.querySelector('#formBasicTel1').value=""
       document.querySelector('#passport_file').value=null
+      document.querySelector('#formBasicFirstO').value=""
+      document.querySelector('#formBasicLastO').value=""
+      document.querySelector('#formBasicPatO').value=""
+      document.querySelector('#formBasicBirthO').value=null
+      document.querySelector('#formBasicTelO').value=""
+      document.querySelector('#formBasicTel1O').value=""
+      document.querySelector('#formBasicNoteO').value=""
+      document.querySelector('#passport_addressO').value=""
+      document.querySelector('#passport_numberO').value=""
+      document.querySelector('#passport_serialO').value=""
+      document.querySelector('#passport_who_giveO').value=""
+      document.querySelector('#passport_when_giveO').value=""
+   
     }
 
 
@@ -283,7 +327,7 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Last name<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicLast" placeholder="Enter last name<" />
+    <Form.Control type="email" className="mb-3" id="formBasicLast" placeholder="Enter last name" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Patronimic</Form.Label>
@@ -295,15 +339,15 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Telefon number <sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTel" placeholder="Enter telefon number" />
+    <Form.Control type="email" className="mb-3" id="formBasicTel" placeholder="+998900000000" />
   </Form.Group> 
    <Form.Group className="mb-3" >
     <Form.Label>Extra telefon number</Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTel1" placeholder="Enter email" />
+    <Form.Control type="email" className="mb-3" id="formBasicTel1" placeholder="+998900000000" />
   </Form.Group>
  <Form.Group className="mb-3" >
     <Form.Label>Notes</Form.Label>
-    <Form.Control type="email" id="formBasicNote" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="formBasicNote" className="mb-3" placeholder="Notes" />
   </Form.Group>
  
 </Form>
@@ -315,27 +359,27 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
  
   <Form.Group className="mb-3" >
     <Form.Label>Passport Address<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_address" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_address" className="mb-3" placeholder="Passport Address" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport number<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_number" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_number" className="mb-3" placeholder="000000000" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport serial<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_serial" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_serial" className="mb-3" placeholder="AA" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport who give<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_who_give" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_who_give" className="mb-3" placeholder="Passport who give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport when give<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_when_give" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_when_give" className="mb-3" placeholder="Passport when give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport file<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="file" id="passport_file" className="mb-3" placeholder="text" />
+    <Form.Control type="file" id="passport_file" className="mb-3" placeholder="Passport file" />
   </Form.Group>
 
 </Form></Modal.Body>
@@ -351,7 +395,7 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Last nameO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicLastO" placeholder="Enter last name<" />
+    <Form.Control type="email" className="mb-3" id="formBasicLastO" placeholder="Enter last name" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>PatronimicO</Form.Label>
@@ -363,15 +407,15 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Telefon numberO <sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTelO" placeholder="Enter telefon number" />
+    <Form.Control type="text" className="mb-3" id="formBasicTelO" placeholder="+99890000000" />
   </Form.Group> 
    <Form.Group className="mb-3" >
     <Form.Label>Extra telefon numberO</Form.Label>
-    <Form.Control type="email" className="mb-3" id="formBasicTel1O" placeholder="Enter email" />
+    <Form.Control type="text" className="mb-3" id="formBasicTel1O" placeholder="+99890000000" />
   </Form.Group>
  <Form.Group className="mb-3" >
     <Form.Label>NotesO</Form.Label>
-    <Form.Control type="email" id="formBasicNoteO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="formBasicNoteO" className="mb-3" placeholder="Notes" />
   </Form.Group>
  
 </Form>
@@ -383,27 +427,27 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
  
   <Form.Group className="mb-3" >
     <Form.Label>Passport AddressO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_addressO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_addressO" className="mb-3" placeholder="Passport Address" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport numberO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_numberO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_numberO" className="mb-3" placeholder="000000000" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport serialO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_serialO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_serialO" className="mb-3" placeholder="AA" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport who giveO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_who_giveO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_who_giveO" className="mb-3" placeholder="Passport who give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport when giveO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="email" id="passport_when_giveO" className="mb-3" placeholder="text" />
+    <Form.Control type="email" id="passport_when_giveO" className="mb-3" placeholder="Passport when give" />
   </Form.Group>
   <Form.Group className="mb-3" >
     <Form.Label>Passport fileO<sup style={{color:'red',fontSize:'18px',position:'relative',top:'3px'}}>*</sup></Form.Label>
-    <Form.Control type="file" id="passport_fileO" className="mb-3" placeholder="text" />
+    <Form.Control type="file" id="passport_fileO" className="mb-3" placeholder="Passport file" />
   </Form.Group>
 
 </Form></Modal.Body>
@@ -411,7 +455,7 @@ axios.post('http://62.209.129.38:8000/api/students/', user , {
           <Button variant="secondary" onClick={this.handleClose}>
             Close
           </Button>
-          <Button variant="primary"   onClick={this.PostUser}>
+          <Button variant="primary"   onClick={()=>this.PostUser()}>
             Save Changes
           </Button>
         </Modal.Footer>
